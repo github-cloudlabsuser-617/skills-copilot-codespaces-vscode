@@ -1,0 +1,21 @@
+# Crear una acción de GitHub para enviar por correo electrónico un informe desde un archivo a las 6 a.m. todos los días.
+name: Deploy App
+on:
+  schedule:
+    - cron: "0 6 * * *"
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.PASSWORD }}
+          subject: "Daily Report"
+          body: "This is the daily report for the app."
+          to: ${{ secrets.RECIPIENT }}
+          from: ${{ secrets.EMAIL }}
+          attachments: deploy
